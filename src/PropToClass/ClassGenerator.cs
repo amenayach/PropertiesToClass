@@ -34,8 +34,11 @@ namespace PropToClass
 
         private static string GetProperties(IEnumerable<dynamic> properties)
         {
-            return properties?.Select(m => $@"        public {GetPropertyType(m)} {m.PropertyName} {{ get; set; }}")
-                              .Aggregate((m1, m2) => m1 + Environment.NewLine + m2);
+            return properties?.Select(m => $@"        /// <summary>
+        /// Gets or sets the {m.PropertyName}.
+        /// </summary>
+        public {GetPropertyType(m)} {m.PropertyName} {{ get; set; }}")
+                              .Aggregate((m1, m2) => m1 + Environment.NewLine + Environment.NewLine + m2);
         }
 
         private static string GetPropertyType(dynamic m)

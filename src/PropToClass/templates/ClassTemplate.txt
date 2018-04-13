@@ -1,7 +1,10 @@
 ﻿namespace [namespace]
 {
     using System;
-    
+
+    /// <summary>
+    /// Represents the [classname] information.
+    /// </summary>
     public class [classname]
     {
 [props]
