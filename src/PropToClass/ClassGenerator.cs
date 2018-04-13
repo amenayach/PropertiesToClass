@@ -59,7 +59,7 @@ namespace PropToClass
             }
             else if (m.Value.Replace(",", string.Empty).StartsWith("new "))
             {
-                return m.Value.Substring(4);
+                return m.Value.Substring(4).Replace(",", string.Empty);
             }
             else if (m.Value.Contains("true") || m.Value.Contains("false") || m.Value.Contains("!") || m.Value.Contains("Has") || m.Value.StartsWith("Is"))
             {
