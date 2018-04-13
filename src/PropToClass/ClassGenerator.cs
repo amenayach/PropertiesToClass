@@ -44,14 +44,24 @@ namespace PropToClass
             {
                 return "string";
             }
-            else if (m.Value.Contains("true") || m.Value.Contains("false") || m.Value.Contains("!") || m.Value.Contains("Has") || m.Value.StartsWith("Is"))
-            {
-                return "bool";
-            }
+            //DateTime should be before the "new " prefix case, or need to be handled
             else if (m.Value.Contains("Date") || m.Value.Contains("/") || m.Value.ToLower().StartsWith("Is"))
             {
                 return "DateTime";
             }
+            //This case also need to be handled before the "new " prefix case
+            else if (m.Value.Replace(",", string.Empty).StartsWith("new <"))
+            {
+                return "IEnumerable<" + m.Value.Substring(5).Replace(">", string.Empty).Replace(",", string.Empty) + ">";
+            }
+            else if (m.Value.Replace(",", string.Empty).StartsWith("new "))
+            {
+                return m.Value.Substring(4);
+            }
+            else if (m.Value.Contains("true") || m.Value.Contains("false") || m.Value.Contains("!") || m.Value.Contains("Has") || m.Value.StartsWith("Is"))
+            {
+                return "bool";
+            }            
             else if (int.TryParse(m.Value.Replace(",", string.Empty), out int x))
             {
                 return "int";
