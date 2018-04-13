@@ -117,4 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="tbInput.Text" xml:space="preserve">
+    <value>{
+  Id = 393ea1ce-c9a6-4fae-8f61-15fede713e2d,
+  Name = "Tester",
+  Tag = 1,
+  B = false,
+  D = 1.4,
+  Dt = DateTime.Now,
+  Dt2 = new DateTime(2020, 1, 1),
+  G = Guid.Parse("393ea1ce-c9a6-4fae-8f61-15fede713e2d"),
+  Details = new &lt;DetailInfo,
+  Country = new Country
+}</value>
+  </data>
 </root>
