@@ -24,7 +24,7 @@ namespace PropToClass
         {
             if (tbInput.Text.NotEmpty() && tbClassname.Text.NotEmpty())
             {
-                tbOutput.Text = ClassGenerator.Generate(tbInput.Text, tbNamespace.Text, tbClassname.Text);
+                tbOutput.Text = ClassGenerator.Generate(tbInput.Text, tbNamespace.Text, tbClassname.Text, chWpf.Checked ? Enumerations.ClassType.Wpf : Enumerations.ClassType.General);
 
                 Directory.CreateDirectory($@"{Directory.GetCurrentDirectory()}\output");
 

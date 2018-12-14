@@ -37,6 +37,7 @@
             this.tbClassname = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tbOutput = new System.Windows.Forms.RichTextBox();
+            this.chWpf = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -52,6 +53,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.chWpf);
             this.splitContainer1.Panel1.Controls.Add(this.btnGenerate);
             this.splitContainer1.Panel1.Controls.Add(this.tbInput);
             this.splitContainer1.Panel1.Controls.Add(this.tbNamespace);
@@ -139,6 +141,16 @@
             this.tbOutput.TabIndex = 5;
             this.tbOutput.Text = "";
             // 
+            // chWpf
+            // 
+            this.chWpf.AutoSize = true;
+            this.chWpf.Location = new System.Drawing.Point(899, 14);
+            this.chWpf.Name = "chWpf";
+            this.chWpf.Size = new System.Drawing.Size(50, 17);
+            this.chWpf.TabIndex = 7;
+            this.chWpf.Text = "&WPF";
+            this.chWpf.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,6 +180,7 @@
         private System.Windows.Forms.RichTextBox tbInput;
         private System.Windows.Forms.RichTextBox tbOutput;
         private System.Windows.Forms.Button btnGenerate;
+        private System.Windows.Forms.CheckBox chWpf;
     }
 }
 

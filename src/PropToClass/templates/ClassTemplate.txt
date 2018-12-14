@@ -1,12 +1,12 @@
 ﻿namespace [namespace]
 {
     using System;
-
+	[additionalnss]
     /// <summary>
     /// Represents the [classname] information.
     /// </summary>
-    public class [classname]
+    public class [classname][parentclass]
     {
-[props]
+[preadditions][props][postadditions]
     }
 }

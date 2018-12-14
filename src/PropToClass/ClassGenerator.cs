@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static PropToClass.Enumerations;
 
 namespace PropToClass
 {
     internal class ClassGenerator
     {
-        internal static string Generate(string text, string nameSpace, string className)
+        internal static string Generate(string text, string nameSpace, string className, ClassType classType)
         {
             if (text.NotEmpty())
             {
@@ -23,8 +24,20 @@ namespace PropToClass
 
                 var code = model
                             .Replace("[namespace]", nameSpace)
+                            .Replace("[additionalnss]", classType == ClassType.Wpf ? "using System.ComponentModel;\n" : "\n")
                             .Replace("[classname]", className)
-                            .Replace("[props]", GetProperties(properties));
+                            .Replace("[parentclass]", classType == ClassType.Wpf ? " : INotifyPropertyChanged" : "")
+                            .Replace("[props]", GetProperties(properties, classType))
+                            .Replace("[preadditions]", classType == ClassType.Wpf ? @"
+        public event PropertyChangedEventHandler PropertyChanged;
+
+" : "")
+                            .Replace("[postadditions]", classType == ClassType.Wpf ? @"
+
+        private void RaisePropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }" : "");
 
                 return code;
             }
@@ -32,13 +45,40 @@ namespace PropToClass
             return string.Empty;
         }
 
-        private static string GetProperties(IEnumerable<dynamic> properties)
+        private static string GetProperties(IEnumerable<dynamic> properties, ClassType classType)
         {
-            return properties?.Select(m => $@"        /// <summary>
+            switch (classType)
+            {
+                case ClassType.Wpf:
+                    return properties?.Select(m => $@"        /// <summary>
+        /// Gets or sets the {m.PropertyName}.
+        /// </summary>
+        private string {Extensions.LowerFirstChar(m.PropertyName)};
+        public {GetPropertyType(m)} {m.PropertyName}
+        {{ 
+            get
+            {{
+                return {Extensions.LowerFirstChar(m.PropertyName)};
+            }}
+            set
+            {{
+                if ({Extensions.LowerFirstChar(m.PropertyName)} != value)
+                {{
+                    {Extensions.LowerFirstChar(m.PropertyName)} = value;
+                    RaisePropertyChanged(nameof({m.PropertyName}));
+                }}
+            }}
+        }}")
+                      .Aggregate((m1, m2) => m1 + Environment.NewLine + Environment.NewLine + m2);
+
+                default:
+                    return properties?.Select(m => $@"        /// <summary>
         /// Gets or sets the {m.PropertyName}.
         /// </summary>
         public {GetPropertyType(m)} {m.PropertyName} {{ get; set; }}")
-                              .Aggregate((m1, m2) => m1 + Environment.NewLine + Environment.NewLine + m2);
+                  .Aggregate((m1, m2) => m1 + Environment.NewLine + Environment.NewLine + m2);
+
+            }
         }
 
         private static string GetPropertyType(dynamic m)
@@ -64,7 +104,7 @@ namespace PropToClass
             else if (m.Value.Contains("true") || m.Value.Contains("false") || m.Value.Contains("!") || m.Value.Contains("Has") || m.Value.StartsWith("Is"))
             {
                 return "bool";
-            }            
+            }
             else if (int.TryParse(m.Value.Replace(",", string.Empty), out int x))
             {
                 return "int";
