@@ -53,7 +53,7 @@ namespace PropToClass
                     return properties?.Select(m => $@"        /// <summary>
         /// Gets or sets the {m.PropertyName}.
         /// </summary>
-        private string {Extensions.LowerFirstChar(m.PropertyName)};
+        private {GetPropertyType(m)} {Extensions.LowerFirstChar(m.PropertyName)};
         public {GetPropertyType(m)} {m.PropertyName}
         {{ 
             get
